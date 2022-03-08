@@ -1,17 +1,24 @@
+const wrapper = document.getElementsByClassName('calculator')[0]
+const answerBox = document.querySelector('.inner >p')
+
 function add(a) {
-    console.log(Array.from(arguments).reduce((a,b)=>a+b))
+    // console.log(Array.from(arguments).reduce((a,b)=>a+b))
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a+b)
 }
 
 function subtract(a) {
-    console.log(Array.from(arguments).reduce((a,b)=>a-b))
+    // console.log(Array.from(arguments).reduce((a,b)=>a-b))
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a-b)
 }
 
 function multiply(a) {
-    console.log(Array.from(arguments).reduce((a,b)=>a*b))
+    // console.log(Array.from(arguments).reduce((a,b)=>a*b))
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a*b)
 }
 
 function divide(a) {
-    console.log(Array.from(arguments).reduce((a,b)=>a/b))
+    // console.log(Array.from(arguments).reduce((a,b)=>a/b))
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a/b)
 }
 
 function operate(operator, x,y) {
@@ -29,9 +36,11 @@ function operate(operator, x,y) {
       }
 }
 
-const wrapper = document.getElementsByClassName('calculator')[0]
-const answerBox = document.querySelector('.answer >p')
 
+let entering = false;
+let reset = false;
+const firstArg = []
+const operatorUsed = []
 
 wrapper.addEventListener('click', (event) => {
   const operator = event.target.classList.value.includes('operator')
@@ -40,19 +49,60 @@ wrapper.addEventListener('click', (event) => {
   const calc = event.target.classList.value.includes('calc')
   const clr = event.target.classList.value.includes('clr')
 
+  const invert = event.target.classList.value.includes('invert')
+  const percent = event.target.classList.value.includes('percent')
+
   
   if (isNumber || decimal) {
-    if (answerBox.textContent == 0) {
-      answerBox.textContent = event.target.textContent
-      return
+    
+    if (reset) {
+      answerBox.textContent = ''
+      reset = false
     }
-    if (answerBox.textContent.includes(".") && event.target.textContent == '.') {
-      return;
-    }
-      answerBox.textContent =  answerBox.textContent + event.target.textContent
-    }
+
+     if (!reset) {
+      if (answerBox.textContent == 0) {
+        answerBox.textContent = event.target.textContent
+        return
+      }
+      if (answerBox.textContent.includes(".") && event.target.textContent == '.') {
+        return;
+      }
+        answerBox.textContent =  answerBox.textContent + event.target.textContent
+      }
+     }
+      
     if (clr) {
     answerBox.textContent = 0
+    entering = false
+    }
+    
+    if (operator) {
+      if (entering) {
+        let second = Number(answerBox.textContent)
+        operate(operatorUsed[0],Number(firstArg[0]),second)
+        firstArg.pop()
+        operatorUsed.pop()
+      }
+      entering = true;
+      reset = true;
+      firstArg.push(answerBox.textContent)
+      operatorUsed.push(event.target.textContent)
+    }
+
+    if (calc) {
+      let second = Number(answerBox.textContent)
+      operate(operatorUsed[0],Number(firstArg[0]),second)
+      firstArg.pop()
+      operatorUsed.pop()
+    }
+
+    if (invert) {
+      answerBox.textContent = (-1*(Number(answerBox.textContent))).toString()
+    }
+
+    if (percent) {
+      divide(Number(answerBox.textContent),100)
     }
   
 })
