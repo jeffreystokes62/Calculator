@@ -17,19 +17,44 @@ function divide(a) {
 function operate(operator, x,y) {
     switch(operator) {
         case '+':
-          add(x,y)
-          break;
+          return add(x,y)
         case '-':
-          subtract(x,y)
-          break;
+          return subtract(x,y)
         case '*':
-          multiply(x,y)
-          break;
+          return multiply(x,y)
         case '/':
-          divide(x,y)
-          break;
+          return divide(x,y)
         default:
           console.log('Invalid operator')
       }
 }
+
+const wrapper = document.getElementsByClassName('calculator')[0]
+const answerBox = document.querySelector('.answer >p')
+
+
+wrapper.addEventListener('click', (event) => {
+  const operator = event.target.classList.value.includes('operator')
+  const isNumber = event.target.classList.value.includes('number')
+  const decimal = event.target.classList.value.includes('decimal')
+  const calc = event.target.classList.value.includes('calc')
+  const clr = event.target.classList.value.includes('clr')
+
+  
+  if (isNumber || decimal) {
+    if (answerBox.textContent == 0) {
+      answerBox.textContent = event.target.textContent
+      return
+    }
+    if (answerBox.textContent.includes(".") && event.target.textContent == '.') {
+      return;
+    }
+      answerBox.textContent =  answerBox.textContent + event.target.textContent
+    }
+    if (clr) {
+    answerBox.textContent = 0
+    }
+  
+})
+
 

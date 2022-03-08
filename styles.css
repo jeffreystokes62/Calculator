@@ -5,24 +5,6 @@ body {
     justify-content: center;
 }
 
-/* .calculator {
-    display:flex;
-    flex-direction: row;
-    height: 400px;
-    width: 300px;
-    gap: 10px;
-    border: 1px solid black;
-    flex-wrap: wrap;
-    align-content: space-around;
-    padding: 10px;
-}
-
-.calculator button {
-    flex: 1 1 auto;
-    height: 60px;
-    width: 60px;
-} */
-
 .calculator {
     display: grid;
     grid-template-columns: repeat(4,60px);
@@ -50,4 +32,11 @@ body {
 
 .extra {
     grid-column: span 2;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
