@@ -3,22 +3,22 @@ const answerBox = document.querySelector('.inner >p')
 
 function add(a) {
     // console.log(Array.from(arguments).reduce((a,b)=>a+b))
-    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a+b)
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a+b).toFixed(4)
 }
 
 function subtract(a) {
     // console.log(Array.from(arguments).reduce((a,b)=>a-b))
-    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a-b)
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a-b).toFixed(4)
 }
 
 function multiply(a) {
     // console.log(Array.from(arguments).reduce((a,b)=>a*b))
-    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a*b)
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a*b).toFixed(4)
 }
 
 function divide(a) {
     // console.log(Array.from(arguments).reduce((a,b)=>a/b))
-    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a/b)
+    answerBox.textContent = Array.from(arguments).reduce((a,b)=>a/b).toFixed(4)
 }
 
 function operate(operator, x,y) {
@@ -52,7 +52,19 @@ wrapper.addEventListener('click', (event) => {
   const invert = event.target.classList.value.includes('invert')
   const percent = event.target.classList.value.includes('percent')
 
-  
+
+  if (clr) {
+    answerBox.textContent = 0
+    entering = false
+    firstArg.pop()
+    operatorUsed.pop()
+    }
+
+  if (answerBox.clientWidth > 260) {
+      return
+  }
+    
+
   if (isNumber || decimal) {
     
     if (reset) {
@@ -71,11 +83,6 @@ wrapper.addEventListener('click', (event) => {
         answerBox.textContent =  answerBox.textContent + event.target.textContent
       }
      }
-      
-    if (clr) {
-    answerBox.textContent = 0
-    entering = false
-    }
     
     if (operator) {
       if (entering) {
